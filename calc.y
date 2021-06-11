@@ -4,17 +4,21 @@ int yylex();
 #include <stdio.h>     /* C declarations used in actions */
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 int symbols[52];
-int symbolVal(char symbol);
+int symbolVal(char symbol); // check symbol table
 void updateSymbolVal(char symbol, int val);
+
 %}
 
-%union {int num; char id;}         /* Yacc definitions */
+%union {int num; char id;}         /* Yacc definitions, specify what types can be returned from our language */
 %start line
 %token print
 %token exit_command
+%token pow_command
+%token sqrt_command
 %token <num> number
-%token <id> identifier
+%token <id> ID
 %type <num> line exp term 
 %type <id> assignment
 
@@ -30,14 +34,22 @@ line    : assignment ';'		{;}
 		| line exit_command ';'	{exit(EXIT_SUCCESS);}
         ;
 
-assignment : identifier '=' exp  { updateSymbolVal($1,$3); }
+assignment : ID '=' exp  { updateSymbolVal($1,$3); }
 			;
 exp    	: term                  {$$ = $1;}
        	| exp '+' term          {$$ = $1 + $3;}
        	| exp '-' term          {$$ = $1 - $3;}
+				| exp '*' term 					{$$ = $1 * $3;}
+				| exp '/' term 					{$$ = $1 / $3;}
+				| exp pow_command term 	{$$ = pow($1, $3);}
+				| exp '+' sqrt_command term {$$ = $1 + sqrt($4);}
+				| exp '-' sqrt_command term {$$ = $1 - sqrt($4);}
+				| exp '*' sqrt_command term {$$ = $1 * sqrt($4);}
+				| exp '/' sqrt_command term {$$ = $1 / sqrt($4);}
+				| sqrt_command term {$$ = sqrt($2);}
        	;
 term   	: number                {$$ = $1;}
-		| identifier			{$$ = symbolVal($1);} 
+		| ID			{$$ = symbolVal($1);} 
         ;
 
 %%                     /* C code */
