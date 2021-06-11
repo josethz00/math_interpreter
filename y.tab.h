@@ -51,24 +51,28 @@ extern int yydebug;
   {
     print = 258,
     exit_command = 259,
-    number = 260,
-    identifier = 261
+    pow_command = 260,
+    sqrt_command = 261,
+    number = 262,
+    ID = 263
   };
 #endif
 /* Tokens.  */
 #define print 258
 #define exit_command 259
-#define number 260
-#define identifier 261
+#define pow_command 260
+#define sqrt_command 261
+#define number 262
+#define ID 263
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "calc.y"
+#line 14 "calc.y"
 int num; char id;
 
-#line 72 "y.tab.h"
+#line 76 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
