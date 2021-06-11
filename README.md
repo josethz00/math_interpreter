@@ -4,7 +4,7 @@ Basic Math Interpreter
 This is a simple math expression interpreter written with C, Lex and Yacc 
 
 1. Use ``` make ``` command in your terminal to compile ```.y```, ```.l``` and ```.c``` files
-2. And then to run the interpreter, type ```./calc```
+2. And then to run the interpreter, type ```./calc.out```
 
 ### Limitations:
   - For now, the language only supports variables with one character in the name, and this character must be a alfabet letter 
